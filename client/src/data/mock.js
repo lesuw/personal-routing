@@ -6,13 +6,6 @@ export const INTEREST_CHIPS = [
   { id: 'short', label: 'Самый короткий' }
 ];
 
-export const SETTINGS = [
-  { id: 'shade', title: 'Ходите', sub: 'по тени' },
-  { id: 'nature', title: 'Интерес', sub: 'к природе' },
-  { id: 'culture', title: 'Культурные', sub: 'объекты' },
-  { id: 'food', title: 'Кафе и рестораны', sub: '' }
-];
-
 export const DISCOVER_CARDS = [
   {
     id: 1,
@@ -38,12 +31,6 @@ export const DISCOVER_CARDS = [
     km: '7.4 км',
     img: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=800&auto=format&fit=crop'
   }
-];
-
-export const FAV_ROUTES = [
-  { id: 1, title: 'Набережная — Виноградовский мост', km: '6.8 км', time: '2 ч 40 мин' },
-  { id: 2, title: 'Столбы (лёгкая тропа)', km: '5.2 км', time: '2 ч 00 мин' },
-  { id: 3, title: 'Тихий центр: дворы и скверы', km: '3.1 км', time: '1 ч 10 мин' }
 ];
 
 export const PLACES = [

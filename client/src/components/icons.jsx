@@ -52,13 +52,6 @@ export const IEye = (p) => (
 );
 export const IEyeOff = (p) => <P {...p} d="M3 3l18 18M10 6c.7-.2 1.3-.2 2-.2 6 0 9.5 6.2 9.5 6.2a17 17 0 01-3.3 3.4M6 7.5C3.8 9.3 2.5 12 2.5 12S6 18.5 12 18.5c1.2 0 2.3-.2 3.3-.6" />;
 export const IMenu = (p) => <P {...p} d="M4 7h16M4 12h16M4 17h16" />;
-export const IMap = (p) => (
-  <P {...p}>
-    <path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z" />
-    <path d="M9 4v14M15 6v14" />
-  </P>
-);
-export const ISliders = (p) => <P {...p} d="M4 8h10M18 8h2M4 16h4M12 16h8M14 5v6M8 13v6" />;
 export const IRoute = (p) => (
   <P {...p}>
     <circle cx="6" cy="18" r="2.4" />
@@ -94,17 +87,6 @@ export const IUsers = (p) => (
   </P>
 );
 export const IZap = (p) => <P {...p} d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" />;
-export const ILandmark = (p) => (
-  <P {...p}>
-    <path d="M3 9l9-6 9 6M4 9v10M20 9v10M8 12v5M12 12v5M16 12v5M2 21h20" />
-  </P>
-);
-export const ICup = (p) => (
-  <P {...p}>
-    <path d="M5 9h12v6a5 5 0 01-5 5h-2a5 5 0 01-5-5V9z" />
-    <path d="M17 10h2a2.5 2.5 0 010 5h-2M7 5c0-1 1-1 1-2M11 5c0-1 1-1 1-2" />
-  </P>
-);
 export const IStar = ({ filled, ...p }) => (
   <svg width={18} height={18} viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" {...p}>
     <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.5 9.7l5.9-.8L12 3.5z" />
@@ -124,9 +106,3 @@ export const IBookmark = (p) => (
 );
 export const IArrow = (p) => <P {...p} d="M4 12h15M13 6l6 6-6 6" />;
 export const IBack = (p) => <P {...p} d="M20 12H5M11 6l-6 6 6 6" />;
-export const IDot = (p) => (
-  <svg width={14} height={14} viewBox="0 0 14 14" {...p}>
-    <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" strokeWidth={1.7} />
-    <circle cx="7" cy="7" r="1.6" fill="currentColor" />
-  </svg>
-);
