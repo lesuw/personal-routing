@@ -3,7 +3,7 @@ import Logo from './Logo.jsx';
 import { ISearch, IMenu } from './icons.jsx';
 
 // Верхняя панель docked-приложения: лого, глобальный поиск, аватар, бургер-меню.
-export default function TopBar({ query, onQuery, onFocusSearch, onGoProfile, onNavigate }) {
+export default function TopBar({ query, onQuery, onFocusSearch, onGoProfile, onNavigate, initial = 'А', onLogout }) {
   const [menu, setMenu] = useState(false);
   const go = (fn) => () => { setMenu(false); fn(); };
 
@@ -22,13 +22,13 @@ export default function TopBar({ query, onQuery, onFocusSearch, onGoProfile, onN
         </div>
       </div>
       <div className="top-actions">
-        <div className="avatar-dot" onClick={onGoProfile}>А</div>
+        <div className="avatar-dot" onClick={onGoProfile}>{initial}</div>
         <button className="burger" onClick={() => setMenu(!menu)} aria-label="Меню"><IMenu /></button>
         {menu && (
           <div className="dropdown">
             <button onClick={go(() => onNavigate('/discover'))}>Подборки маршрутов</button>
             <button onClick={go(onGoProfile)}>Профиль</button>
-            <button onClick={go(() => onNavigate('/'))}>Выйти</button>
+            <button onClick={go(onLogout)}>Выйти</button>
           </div>
         )}
       </div>

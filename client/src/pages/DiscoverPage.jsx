@@ -4,12 +4,14 @@ import { DISCOVER_CARDS } from '../data/mock.js';
 import Logo from '../components/Logo.jsx';
 import ChipRow from '../components/ChipRow.jsx';
 import DiscoverCard from '../discover/DiscoverCard.jsx';
+import { useAuth } from '../auth/AuthContext.jsx';
 import { IMenu, IBack } from '../components/icons.jsx';
 
 const CATS = ['Природа', 'Культура', 'Гастрономия', 'Активный отдых'];
 
 export default function DiscoverPage() {
   const nav = useNavigate();
+  const { user } = useAuth();
   const [cat, setCat] = useState('Природа');
 
   return (
@@ -18,7 +20,7 @@ export default function DiscoverPage() {
         <div className="topbar">
           <Logo onClick={() => nav('/map')} />
           <div className="top-actions">
-            <div className="avatar-dot">А</div>
+            <div className="avatar-dot">{(user?.name || 'Г').trim().charAt(0).toUpperCase()}</div>
             <button className="burger" onClick={() => nav('/map')} aria-label="Меню"><IMenu /></button>
           </div>
         </div>

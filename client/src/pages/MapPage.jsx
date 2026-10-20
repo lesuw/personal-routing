@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext.jsx';
 import useMapPage from '../hooks/useMapPage.js';
 import TopBar from '../components/TopBar.jsx';
 import Rail from '../components/Rail.jsx';
@@ -13,7 +14,13 @@ import RouteMap from '../map/RouteMap.jsx';
 // Состояние — в useMapPage, вкладки — в map/*, шапка/rail — в components/*.
 export default function MapPage() {
   const nav = useNavigate();
+  const { user, logout } = useAuth();
   const s = useMapPage();
+
+  const signOut = async () => {
+    await logout();
+    nav('/');
+  };
 
   return (
     <div className="app">
@@ -23,6 +30,8 @@ export default function MapPage() {
         onFocusSearch={() => s.setTab('search')}
         onGoProfile={() => s.setTab('profile')}
         onNavigate={(path) => nav(path)}
+        initial={(user?.name || 'Г').trim().charAt(0).toUpperCase()}
+        onLogout={signOut}
       />
 
       <div className="app-body">
@@ -71,10 +80,11 @@ export default function MapPage() {
 
           {s.tab === 'profile' && (
             <ProfilePanel
+              user={user}
               favCount={s.favs.length}
               onBack={() => s.setTab('search')}
               onCollections={() => s.setTab('collections')}
-              onLogout={() => nav('/')}
+              onLogout={signOut}
             />
           )}
         </div>
