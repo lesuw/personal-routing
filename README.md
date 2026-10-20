@@ -33,12 +33,18 @@ npm install
 npm start        # http://localhost:4000
 ```
 
+Авторизация — настоящая: SQLite + bcrypt + JWT (access 15 мин в заголовке,
+refresh 30 дней в httpOnly-куке). `/map` и `/discover` требуют входа,
+«Продолжить как гость» создаёт одноразовый аккаунт.
+
 Проверка:
 
 - `GET /api/health`
-- `POST /api/login`, `POST /api/register`
-- `GET /api/routes`, `POST /api/routes`
-- `POST /api/build-route` — возвращает демо-ломаную
+- `POST /api/register` `{name, email, password}` → `{ok, access, user}`
+- `POST /api/login` `{email, password}`, `POST /api/refresh` (по куке),
+  `POST /api/logout`, `GET /api/me` (нужен `Authorization: Bearer ...`)
+- `GET /api/routes`, `POST /api/routes` — только свои маршруты (нужен Bearer)
+- `POST /api/build-route` — пока возвращает демо-ломаную
 
 ## Экраны
 
