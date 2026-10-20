@@ -78,5 +78,8 @@ export const api = {
   },
   createRoute(route) {
     return req('/api/routes', { method: 'POST', body: route });
+  },
+  buildRoute(from, to, profile = 'foot-walking') {
+    return req('/api/build-route', { method: 'POST', body: { from, to, profile } });
   }
 };

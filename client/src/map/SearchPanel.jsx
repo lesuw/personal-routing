@@ -22,7 +22,7 @@ export default function SearchPanel({ query, onQuery, placeCat, onPlaceCat, plac
       <ChipRow items={PLACE_CATS} active={[placeCat]} onToggle={onPlaceCat} />
       {places.length === 0 && <p className="hint">Ничего не найдено. Попробуйте другой запрос.</p>}
       {places.map((p) => (
-        <button key={p.id} className="place-row" onClick={() => onSelect(p.title)}>
+        <button key={p.id} className="place-row" onClick={() => onSelect(p)}>
           <span className="ic navy">{placeIcon(p.cat)}</span>
           <span className="place-text">
             <b>{p.title}</b>

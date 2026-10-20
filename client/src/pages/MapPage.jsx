@@ -52,15 +52,23 @@ export default function MapPage() {
           {s.tab === 'route' && (
             <RoutePanel
               from={s.from}
-              onFrom={s.setFrom}
+              onFrom={(v) => { s.setFrom(v); s.setFromCoords(null); }}
               to={s.to}
-              onTo={s.setTo}
+              onTo={(v) => { s.setTo(v); s.setToCoords(null); }}
+              places={s.places}
+              onSelectFrom={(p) => s.goToRoute(p, 'from')}
+              onSelectTo={(p) => s.goToRoute(p, 'to')}
+              fromCoords={s.fromCoords}
+              toCoords={s.toCoords}
               activeChips={s.activeChips}
               onToggleChip={s.toggleChip}
               interestsLabel={s.interestsLabel}
               canBuild={s.canBuild}
-              onBuild={() => s.setBuilt(true)}
+              onBuild={s.onBuildRoute}
               showRoute={s.showRoute}
+              routeData={s.routeData}
+              routeLoading={s.routeLoading}
+              routeError={s.routeError}
               onSave={() => {}}
               onReset={s.resetRoute}
             />
@@ -89,7 +97,16 @@ export default function MapPage() {
           )}
         </div>
 
-        <RouteMap from={s.from} to={s.to} visible={s.showRoute} />
+        <RouteMap
+          from={s.from}
+          to={s.to}
+          visible={s.showRoute}
+          line={s.routeData?.line}
+          fromCoords={s.fromCoords}
+          toCoords={s.toCoords}
+          focusPoint={s.tab === 'route' && !s.showRoute ? (s.fromCoords || s.toCoords) : null}
+          tab={s.tab}
+        />
       </div>
     </div>
   );
