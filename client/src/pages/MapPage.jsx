@@ -31,6 +31,7 @@ export default function MapPage() {
         onGoProfile={() => s.setTab('profile')}
         onNavigate={(path) => nav(path)}
         initial={(user?.name || 'Г').trim().charAt(0).toUpperCase()}
+        name={user?.name || 'Гость'}
         onLogout={signOut}
       />
 

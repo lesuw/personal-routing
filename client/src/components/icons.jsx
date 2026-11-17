@@ -19,9 +19,9 @@ const P = ({ d, children, ...props }) => (
 
 export const ILogo = (p) => (
   <svg width={22} height={22} viewBox="0 0 24 24" fill="none" {...p}>
-    <path d="M3 17L9 6l4 6 3-4 5 9H3z" fill="#17243f" />
-    <path d="M9 6l2.2 3.4L9 11 7 9.2 9 6z" fill="#dff478" />
-    <path d="M16 5.5l1.6 2.6L16 9.5l-1.4-1.4L16 5.5z" fill="#92bad5" />
+    <path d="M3 17L9 6l4 6 3-4 5 9H3z" fill="#a9c47f" />
+    <path d="M9 6l2.2 3.4L9 11 7 9.2 9 6z" fill="#eef2e7" />
+    <path d="M16 5.5l1.6 2.6L16 9.5l-1.4-1.4L16 5.5z" fill="#7f9e89" />
   </svg>
 );
 
@@ -106,3 +106,15 @@ export const IBookmark = (p) => (
 );
 export const IArrow = (p) => <P {...p} d="M4 12h15M13 6l6 6-6 6" />;
 export const IBack = (p) => <P {...p} d="M20 12H5M11 6l-6 6 6 6" />;
+export const IBell = (p) => (
+  <P {...p}>
+    <path d="M18 9a6 6 0 10-12 0c0 5-2.2 6.2-2.2 6.2h16.4S18 14 18 9z" />
+    <path d="M10.4 19.5a2 2 0 003.2 0" />
+  </P>
+);
+export const IChevronDown = (p) => <P {...p} d="M6 9l6 6 6-6" />;
+export const IGoogle = (p) => (
+  <svg width={17} height={17} viewBox="0 0 24 24" fill="currentColor" {...p}>
+    <path d="M21.35 11.1H12v2.9h5.35c-.23 1.5-1.7 4.4-5.35 4.4-3.22 0-5.85-2.66-5.85-5.95S8.78 6.5 12 6.5c1.84 0 3.07.78 3.77 1.45l2.57-2.48C16.72 3.93 14.55 3.1 12 3.1 6.98 3.1 3 7.08 3 12s3.98 8.9 9 8.9c5.2 0 8.65-3.65 8.65-8.8 0-.59-.06-1.04-.15-1z" />
+  </svg>
+);

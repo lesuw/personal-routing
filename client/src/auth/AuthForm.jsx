@@ -42,57 +42,77 @@ export default function AuthForm() {
 
   return (
     <div className="auth-form">
-      <Logo />
-      <h1>Ваш маршрут<br />по интересам</h1>
-      <p className="sub">Пешие маршруты по Красноярску с учетом предпочтений: тень, тишина и ритм города.</p>
-
-      <div className="tabs">
-        <button className={mode === 'login' ? 'active' : ''} onClick={() => setMode('login')}>Вход</button>
-        <button className={mode === 'register' ? 'active' : ''} onClick={() => setMode('register')}>Регистрация</button>
+      <div className="auth-hero">
+        <Logo />
+        <h1>Поиск пешего маршрута по приоритетам пользователя</h1>
+        <p className="sub">
+          Выбирайте, что для вас важно — и находите идеальные маршруты
+          для прогулок и путешествий.
+        </p>
       </div>
 
-      <form onSubmit={submit}>
-        {mode === 'register' && (
-          <Field
-            icon={<IUser />}
-            value={form.name}
-            onChange={(v) => setForm({ ...form, name: v })}
-            placeholder="Имя"
-          />
-        )}
-        <Field
-          icon={<IMail />}
-          value={form.email}
-          onChange={(v) => setForm({ ...form, email: v })}
-          placeholder="Электронная почта"
-          type="email"
-        />
-        <Field
-          icon={<ILock />}
-          value={form.password}
-          onChange={(v) => setForm({ ...form, password: v })}
-          placeholder={mode === 'login' ? 'Пароль' : 'Пароль (минимум 6 символов)'}
-          type={show ? 'text' : 'password'}
-          right={
-            <button type="button" className="eye" onClick={() => setShow(!show)} aria-label="Показать пароль">
-              {show ? <IEyeOff /> : <IEye />}
-            </button>
-          }
-        />
-        {error && <p className="form-error">{error}</p>}
-        <button className="btn-lime" type="submit" disabled={busy}>
-          {busy ? 'Подождите…' : mode === 'login' ? 'Войти' : 'Создать аккаунт'}
-        </button>
-      </form>
+      <div className="auth-card">
+        <div className="tabs">
+          {mode === 'login' ? (
+            <>
+              <button className="active" onClick={() => setMode('login')}>Вход</button>
+              <button onClick={() => setMode('register')}>Регистрация</button>
+            </>
+          ) : (
+            <>
+              <button className="active" onClick={() => setMode('register')}>Регистрация</button>
+              <button onClick={() => setMode('login')}>Вход</button>
+            </>
+          )}
+        </div>
 
-      <div className="auth-links">
-        {mode === 'login' ? (
-          <span>Нет аккаунта? <a href="#" onClick={(e) => { e.preventDefault(); setMode('register'); }}>Зарегистрироваться</a></span>
-        ) : (
-          <span>Есть аккаунт? <a href="#" onClick={(e) => { e.preventDefault(); setMode('login'); }}>Войти</a></span>
-        )}
-        <button className="link-btn" onClick={asGuest} disabled={busy}>Продолжить как гость</button>
-        <Link to="/discover" className="auth-link-muted">Посмотреть подборки маршрутов</Link>
+        <form onSubmit={submit}>
+          {mode === 'register' && (
+            <Field
+              icon={<IUser />}
+              value={form.name}
+              onChange={(v) => setForm({ ...form, name: v })}
+              placeholder="Имя"
+            />
+          )}
+          <Field
+            icon={<IMail />}
+            value={form.email}
+            onChange={(v) => setForm({ ...form, email: v })}
+            placeholder="Email"
+            type="email"
+          />
+          <Field
+            icon={<ILock />}
+            value={form.password}
+            onChange={(v) => setForm({ ...form, password: v })}
+            placeholder="Пароль"
+            type={show ? 'text' : 'password'}
+            right={
+              <button type="button" className="eye" onClick={() => setShow(!show)} aria-label="Показать пароль">
+                {show ? <IEyeOff /> : <IEye />}
+              </button>
+            }
+          />
+          {mode === 'login' && <span className="forgot-line">Забыли пароль?</span>}
+          {error && <p className="form-error">{error}</p>}
+          <button className="btn-lime" type="submit" disabled={busy}>
+            {busy ? 'Подождите…' : mode === 'login' ? 'Войти' : 'Зарегистрироваться'}
+          </button>
+        </form>
+
+        <div className="auth-links">
+          {mode === 'login' ? (
+            <span>Нет аккаунта? <a href="#" onClick={(e) => { e.preventDefault(); setMode('register'); }}>Зарегистрироваться</a></span>
+          ) : (
+            <span>Уже есть аккаунт? <a href="#" onClick={(e) => { e.preventDefault(); setMode('login'); }}>Войти</a></span>
+          )}
+        </div>
+
+        <div className="auth-foot">
+          <button className="link-btn" onClick={asGuest} disabled={busy}>Продолжить как гость</button>
+          <Link to="/discover" className="auth-link-muted">Посмотреть подборки маршрутов</Link>
+        </div>
       </div>
     </div>
   );

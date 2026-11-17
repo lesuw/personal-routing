@@ -49,11 +49,11 @@ export default function RouteMap({ from, to, visible, line, focusPoint, fromCoor
     <div className="app-map">
       <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapUpdater center={positions ? null : center} zoom={zoom} bounds={positions ? bounds : null} />
-        {positions && <Polyline positions={positions} color="#2f4bff" weight={4} />}
+        {positions && <Polyline positions={positions} color="#c9e08c" weight={4} opacity={0.95} />}
         {positions && (
           <>
             <Marker position={positions[0]} icon={pin}><Popup>{from || 'Старт'}</Popup></Marker>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Logo from './Logo.jsx';
-import { ISearch, IMenu } from './icons.jsx';
+import { ISearch, IBell, IChevronDown } from './icons.jsx';
 
-// Верхняя панель docked-приложения: лого, глобальный поиск, аватар, бургер-меню.
-export default function TopBar({ query, onQuery, onFocusSearch, onGoProfile, onNavigate, initial = 'А', onLogout }) {
+// Верхняя панель docked-приложения: лого, глобальный поиск, уведомления, профиль.
+export default function TopBar({
+  query, onQuery, onFocusSearch, onGoProfile, onNavigate, initial = 'А', name = 'Гость', onLogout
+}) {
   const [menu, setMenu] = useState(false);
   const go = (fn) => () => { setMenu(false); fn(); };
 
@@ -22,8 +24,14 @@ export default function TopBar({ query, onQuery, onFocusSearch, onGoProfile, onN
         </div>
       </div>
       <div className="top-actions">
-        <div className="avatar-dot" onClick={onGoProfile}>{initial}</div>
-        <button className="burger" onClick={() => setMenu(!menu)} aria-label="Меню"><IMenu /></button>
+        <button className="icon-btn" onClick={onGoProfile} aria-label="Уведомления">
+          <IBell />
+        </button>
+        <button className="user-chip" onClick={() => setMenu(!menu)} aria-label="Меню профиля">
+          <span className="avatar-dot">{initial}</span>
+          <span className="top-user-name">{name}</span>
+          <span className="chev"><IChevronDown /></span>
+        </button>
         {menu && (
           <div className="dropdown">
             <button onClick={go(() => onNavigate('/discover'))}>Подборки маршрутов</button>
