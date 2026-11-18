@@ -5,18 +5,18 @@
 
 Палитра: `#dff478` `#f7f3e6` `#92bad5` `#788ce3` `#17243f`.
 
-Пока **только дизайн + минимальные переходы**, без реальной логики маршрутизации.
+Пока прототип: интерфейс, авторизация и построение пешего маршрута через OpenRouteService.
 
 ## Структура
 
 ```
 personal-routing/
-  client/  — React + Vite + React Router + Leaflet (OpenStreetMap)
-    src/pages/AuthPage.jsx      — вход / регистрация
-    src/pages/MapPage.jsx       — карта + панели + профиль
-    src/pages/DiscoverPage.jsx  — подборки (бонус-экран из референса)
-    src/data/mock.js            — мок-данные
-  server/  — Node.js + Express (заглушка API)
+  client/  — React + TypeScript + Vite + React Router + MapLibre GL (OpenStreetMap)
+    src/pages/AuthPage.tsx      — вход / регистрация
+    src/pages/MapPage.tsx       — карта + панели + профиль
+    src/pages/DiscoverPage.tsx  — подборки (бонус-экран из референса)
+    src/data/mock.ts            — мок-данные
+  server/  — Node.js + TypeScript + Express (SQLite, JWT, ORS)
 ```
 
 ## Запуск
@@ -44,12 +44,12 @@ refresh 30 дней в httpOnly-куке). `/map` и `/discover` требуют 
 - `POST /api/login` `{email, password}`, `POST /api/refresh` (по куке),
   `POST /api/logout`, `GET /api/me` (нужен `Authorization: Bearer ...`)
 - `GET /api/routes`, `POST /api/routes` — только свои маршруты (нужен Bearer)
-- `POST /api/build-route` — пока возвращает демо-ломаную
+- `POST /api/build-route` — пеший маршрут через OpenRouteService
 
 ## Экраны
 
 1. `/` — Вход/Регистрация: табы, показать пароль, «продолжить как гость», переход на `/map`.
-2. `/map` — Карта (Leaflet, центр — Красноярск):
+2. `/map` — Карта (MapLibre, OSM, центр — Красноярск):
    - верх: лого, поиск, кружок профиля + бургер → выпадающее меню (разворачивается);
    - слева rail: Карта / Интересы / Маршруты / Профиль — переключают левую панель;
    - панель «Поиск маршрута» (Откуда/Куда) + карточка «Ваш маршрут 2ч40 · 6.8км»;
@@ -58,4 +58,4 @@ refresh 30 дней в httpOnly-куке). `/map` и `/discover` требуют 
    - снизу: «Ваши настройки» — тоглы (ходить по тени, природа, культура, кафе).
 3. `/discover` — «Готовы к новым открытиям?» — карточки подборок.
 
-Карта — OpenStreetMap, ключи не нужны. Маршрут — нарисованная демо-линия.
+Карта — OpenStreetMap, ключи не нужны. Маршрут строится через OpenRouteService.
