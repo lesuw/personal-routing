@@ -1,6 +1,22 @@
 const ORS_DIRECTIONS_URL = 'https://api.openrouteservice.org/v2/directions';
 
-async function getRoute(coordinates, profile = 'foot-walking') {
+export interface OrsRouteFeature {
+  properties: {
+    summary: {
+      distance: number;
+      duration: number;
+    };
+  };
+  geometry: {
+    coordinates: Array<[number, number]>;
+  };
+}
+
+export interface OrsGeoJson {
+  features: OrsRouteFeature[];
+}
+
+async function getRoute(coordinates: Array<[number, number]>, profile = 'foot-walking'): Promise<OrsGeoJson> {
   const apiKey = process.env.ORS_API_KEY;
   if (!apiKey) throw new Error('ORS_API_KEY не задан в .env');
 
@@ -17,7 +33,6 @@ async function getRoute(coordinates, profile = 'foot-walking') {
       units: 'm',
       instructions: false,      // текстовые инструкции не нужны
       elevation: false
-      // geometry_format: 'polyline' — УДАЛЕНО (не существует в API)
     })
   });
 
@@ -26,7 +41,7 @@ async function getRoute(coordinates, profile = 'foot-walking') {
     throw new Error(`ORS ${response.status}: ${text.slice(0, 200)}`);
   }
 
-  return response.json();
+  return response.json() as Promise<OrsGeoJson>;
 }
 
-module.exports = { getRoute };
+export { getRoute };

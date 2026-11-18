@@ -1,17 +1,29 @@
-const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+import 'dotenv/config';
+import crypto from 'node:crypto';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import type Database from 'better-sqlite3';
+import type { RequestHandler, Response } from 'express';
+import type { AuthTokenPayload, PublicUser } from '../types';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
 const ACCESS_TTL = '15m';
 const REFRESH_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function fail(res, code, error) {
+interface DemoRoute {
+  title: string;
+  time: string;
+  km: number;
+  tag: string;
+  fav: number;
+}
+
+function fail(res: Response, code: number, error: string): Response {
   return res.status(code).json({ ok: false, error });
 }
 
-function signAccessToken(user) {
+function signAccessToken(user: Pick<PublicUser, 'id' | 'email'>): string {
   return jwt.sign(
     { sub: user.id, email: user.email },
     JWT_SECRET,
@@ -19,7 +31,7 @@ function signAccessToken(user) {
   );
 }
 
-function issueRefreshToken(res, userId, db) {
+function issueRefreshToken(res: Response, userId: number, db: Database.Database): void {
   const tokenId = crypto.randomUUID();
   const token = jwt.sign({ sub: userId, jti: tokenId }, JWT_SECRET, { expiresIn: '30d' });
   const tokenHash = crypto.createHash('sha256').update(tokenId).digest('hex');
@@ -34,8 +46,8 @@ function issueRefreshToken(res, userId, db) {
   });
 }
 
-function seedDemoRoutes(userId, db) {
-  const DEMO_ROUTES = [
+function seedDemoRoutes(userId: number, db: Database.Database): void {
+  const demoRoutes: DemoRoute[] = [
     { title: 'Смотровые площадки Красноярска', time: '3 ч 20 мин', km: 8.5, tag: 'Природа', fav: 1 },
     { title: 'Бобровый лог и лесные тропы', time: '2 ч 10 мин', km: 5.7, tag: 'Природа', fav: 1 },
     { title: 'Город и набережная', time: '2 ч 50 мин', km: 7.4, tag: 'Комбинированный', fav: 0 }
@@ -43,24 +55,25 @@ function seedDemoRoutes(userId, db) {
   const insertStmt = db.prepare(
     'INSERT INTO routes (user_id, title, time, km, tag, fav) VALUES (?, ?, ?, ?, ?, ?)'
   );
-  const transaction = db.transaction((rows) => {
+  const transaction = db.transaction((rows: DemoRoute[]) => {
     rows.forEach((route) => insertStmt.run(userId, route.title, route.time, route.km, route.tag, route.fav));
   });
-  transaction(DEMO_ROUTES);
+  transaction(demoRoutes);
 }
 
-function publicUser(user) {
+function publicUser(user: PublicUser): PublicUser {
   return { id: user.id, name: user.name, email: user.email };
 }
 
-function authMiddleware(db) {
+function authMiddleware(db: Database.Database): RequestHandler {
   return (req, res, next) => {
     const authHeader = req.headers.authorization || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
     if (!token) return fail(res, 401, 'Нет токена');
     try {
-      const payload = jwt.verify(token, JWT_SECRET);
-      const user = db.prepare('SELECT id, name, email FROM users WHERE id = ?').get(payload.sub);
+      const payload = jwt.verify(token, JWT_SECRET) as unknown as AuthTokenPayload;
+      const user = db.prepare('SELECT id, name, email FROM users WHERE id = ?')
+        .get(payload.sub) as PublicUser | undefined;
       if (!user) return fail(res, 401, 'Пользователь не найден');
       req.user = user;
       next();
@@ -70,7 +83,7 @@ function authMiddleware(db) {
   };
 }
 
-module.exports = {
+export {
   fail,
   signAccessToken,
   issueRefreshToken,

@@ -1,6 +1,6 @@
-require('dotenv').config();
-const Database = require('better-sqlite3');
-const path = require('path');
+import 'dotenv/config';
+import path from 'node:path';
+import Database from 'better-sqlite3';
 
 const db = new Database(path.join(__dirname, 'data.sqlite'));
 db.pragma('journal_mode = WAL');
@@ -30,4 +30,4 @@ db.exec(`
   );
 `);
 
-module.exports = db;
+export default db;
