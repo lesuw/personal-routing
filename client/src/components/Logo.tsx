@@ -1,7 +1,10 @@
-import React from 'react';
-import { ILogo } from './icons.jsx';
+import { ILogo } from './icons';
 
-export default function Logo({ onClick }) {
+interface LogoProps {
+  onClick?: () => void;
+}
+
+export default function Logo({ onClick }: LogoProps) {
   return (
     <div className={`logo${onClick ? ' logo-click' : ''}`} onClick={onClick}>
       <ILogo />

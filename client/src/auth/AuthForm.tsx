@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Field from '../components/Field.jsx';
-import Logo from '../components/Logo.jsx';
-import { useAuth } from './AuthContext.jsx';
-import { IMail, ILock, IUser, IEye, IEyeOff } from '../components/icons.jsx';
+import Field from '../components/Field';
+import Logo from '../components/Logo';
+import { useAuth } from './AuthContext';
+import { IMail, ILock, IUser, IEye, IEyeOff } from '../components/icons';
+
+interface FormState {
+  name: string;
+  email: string;
+  password: string;
+}
 
 // Форма входа/регистрации: табы, поля, ошибки сервера, вход как гость.
 export default function AuthForm() {
   const { login, register, guest } = useAuth();
-  const [mode, setMode] = useState('login'); // login | register
+  const [mode, setMode] = useState<'login' | 'register'>('login');
   const [show, setShow] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState<FormState>({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  const submit = async (e) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setBusy(true);
@@ -22,7 +28,7 @@ export default function AuthForm() {
       if (mode === 'login') await login(form.email.trim(), form.password);
       else await register(form.name.trim(), form.email.trim(), form.password);
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Ошибка запроса');
     } finally {
       setBusy(false);
     }
@@ -34,7 +40,7 @@ export default function AuthForm() {
     try {
       await guest();
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Ошибка запроса');
     } finally {
       setBusy(false);
     }

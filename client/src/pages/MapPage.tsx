@@ -1,14 +1,13 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext.jsx';
-import useMapPage from '../hooks/useMapPage.js';
-import TopBar from '../components/TopBar.jsx';
-import Rail from '../components/Rail.jsx';
-import SearchPanel from '../map/SearchPanel.jsx';
-import RoutePanel from '../map/RoutePanel.jsx';
-import CollectionsPanel from '../map/CollectionsPanel.jsx';
-import ProfilePanel from '../map/ProfilePanel.jsx';
-import RouteMap from '../map/RouteMap.jsx';
+import { useAuth } from '../auth/AuthContext';
+import useMapPage from '../hooks/useMapPage';
+import TopBar from '../components/TopBar';
+import Rail from '../components/Rail';
+import SearchPanel from '../map/SearchPanel';
+import RoutePanel from '../map/RoutePanel';
+import CollectionsPanel from '../map/CollectionsPanel';
+import ProfilePanel from '../map/ProfilePanel';
+import RouteMap from '../map/RouteMap';
 
 // Docked-приложение: шапка + rail + боковая панель + карта.
 // Состояние — в useMapPage, вкладки — в map/*, шапка/rail — в components/*.
@@ -26,7 +25,7 @@ export default function MapPage() {
     <div className="app">
       <TopBar
         query={s.query}
-        onQuery={(v) => { s.setQuery(v); s.setTab('search'); }}
+        onQuery={(value) => { s.setQuery(value); s.setTab('search'); }}
         onFocusSearch={() => s.setTab('search')}
         onGoProfile={() => s.setTab('profile')}
         onNavigate={(path) => nav(path)}
@@ -53,12 +52,12 @@ export default function MapPage() {
           {s.tab === 'route' && (
             <RoutePanel
               from={s.from}
-              onFrom={(v) => { s.setFrom(v); s.setFromCoords(null); }}
+              onFrom={(value) => { s.setFrom(value); s.setFromCoords(null); }}
               to={s.to}
-              onTo={(v) => { s.setTo(v); s.setToCoords(null); }}
+              onTo={(value) => { s.setTo(value); s.setToCoords(null); }}
               places={s.places}
-              onSelectFrom={(p) => s.goToRoute(p, 'from')}
-              onSelectTo={(p) => s.goToRoute(p, 'to')}
+              onSelectFrom={(place) => s.goToRoute(place, 'from')}
+              onSelectTo={(place) => s.goToRoute(place, 'to')}
               fromCoords={s.fromCoords}
               toCoords={s.toCoords}
               activeChips={s.activeChips}
@@ -106,7 +105,6 @@ export default function MapPage() {
           fromCoords={s.fromCoords}
           toCoords={s.toCoords}
           focusPoint={s.tab === 'route' && !s.showRoute ? (s.fromCoords || s.toCoords) : null}
-          tab={s.tab}
         />
       </div>
     </div>

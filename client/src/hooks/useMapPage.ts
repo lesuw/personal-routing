@@ -1,54 +1,55 @@
 import { useState } from 'react';
-import { INTEREST_CHIPS, PLACES, COLLECTIONS } from '../data/mock.js';
-import { api } from '../api/client.js';
+import { INTEREST_CHIPS, PLACES, COLLECTIONS } from '../data/mock';
+import { api } from '../api/client';
+import type { Coords, Place, Role, RouteData, Tab } from '../types';
 
 // Всё состояние MapPage в одном месте:
 // вкладки, поиск мест, конструктор маршрута, подборки, избранное.
 export default function useMapPage() {
-  const [tab, setTab] = useState('search'); // search | route | collections | profile
+  const [tab, setTab] = useState<Tab>('search');
   const [query, setQuery] = useState('');
   const [placeCat, setPlaceCat] = useState('Все');
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
-  const [fromCoords, setFromCoords] = useState(null);
-  const [toCoords, setToCoords] = useState(null);
+  const [fromCoords, setFromCoords] = useState<Coords | null>(null);
+  const [toCoords, setToCoords] = useState<Coords | null>(null);
   const [built, setBuilt] = useState(false);
-  const [routeData, setRouteData] = useState(null);
+  const [routeData, setRouteData] = useState<RouteData | null>(null);
   const [routeLoading, setRouteLoading] = useState(false);
   const [routeError, setRouteError] = useState('');
-  const [activeChips, setActiveChips] = useState(['shade']);
-  const [favs, setFavs] = useState([1, 2]);
+  const [activeChips, setActiveChips] = useState<string[]>(['shade']);
+  const [favs, setFavs] = useState<number[]>([1, 2]);
   const [collCat, setCollCat] = useState('Все');
 
-  const toggleChip = (id) =>
-    setActiveChips((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
+  const toggleChip = (id: string) =>
+    setActiveChips((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
-  const toggleFav = (id) =>
-    setFavs((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
+  const toggleFav = (id: number) =>
+    setFavs((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
   const places = PLACES.filter(
-    (p) =>
-      (placeCat === 'Все' || p.cat === placeCat) &&
-      (p.title.toLowerCase().includes(query.toLowerCase()) ||
-        p.address.toLowerCase().includes(query.toLowerCase()))
+    (place) =>
+      (placeCat === 'Все' || place.cat === placeCat) &&
+      (place.title.toLowerCase().includes(query.toLowerCase()) ||
+        place.address.toLowerCase().includes(query.toLowerCase()))
   );
 
-  const collections = COLLECTIONS.filter((c) => collCat === 'Все' || c.cat === collCat);
+  const collections = COLLECTIONS.filter((collection) => collCat === 'Все' || collection.cat === collCat);
 
   const interestsLabel = activeChips.length
-    ? activeChips.map((c) => INTEREST_CHIPS.find((x) => x.id === c)?.label).join(' · ')
+    ? activeChips.map((chip) => INTEREST_CHIPS.find((x) => x.id === chip)?.label).filter(Boolean).join(' · ')
     : 'без фильтров';
 
-  const goToRoute = (place, role = 'to') => {
-    const p = typeof place === 'string' ? PLACES.find((x) => x.title === place) : place;
-    if (!p) return;
+  const goToRoute = (place: Place | string, role: Role = 'to') => {
+    const found = typeof place === 'string' ? PLACES.find((x) => x.title === place) : place;
+    if (!found) return;
 
     if (role === 'from') {
-      setFrom(p.title);
-      setFromCoords(Array.isArray(p.coords) ? p.coords : null);
+      setFrom(found.title);
+      setFromCoords(Array.isArray(found.coords) ? found.coords : null);
     } else {
-      setTo(p.title);
-      setToCoords(Array.isArray(p.coords) ? p.coords : null);
+      setTo(found.title);
+      setToCoords(Array.isArray(found.coords) ? found.coords : null);
     }
     setBuilt(false);
     setRouteData(null);
@@ -80,7 +81,7 @@ export default function useMapPage() {
       setRouteData(data);
       setBuilt(true);
     } catch (err) {
-      setRouteError(err.message || 'Не удалось построить маршрут');
+      setRouteError(err instanceof Error ? err.message : 'Не удалось построить маршрут');
       setBuilt(false);
       setRouteData(null);
     } finally {
@@ -92,7 +93,7 @@ export default function useMapPage() {
     tab, setTab,
     query, setQuery, placeCat, setPlaceCat, places,
     from, setFrom, to, setTo,
-    fromCoords, toCoords,
+    fromCoords, setFromCoords, toCoords, setToCoords,
     built, setBuilt, canBuild: !!(fromCoords && toCoords), showRoute: built && !!routeData,
     routeData, routeLoading, routeError,
     activeChips, toggleChip, interestsLabel,

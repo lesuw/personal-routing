@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Фоновая иллюстрация входа: лесной пейзаж в плоской графике,
 // без карт и подписей мест.
 export default function AuthPattern() {

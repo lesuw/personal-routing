@@ -1,14 +1,21 @@
-import React from 'react';
-import { IClock, IRoute, ILeaf, IStar, ITree, IVolumeOff, IUsers, IZap } from './icons.jsx';
+import { IClock, IRoute, ILeaf, IStar, ITree, IVolumeOff, IUsers, IZap } from './icons';
+import type { RouteData } from '../types';
+
+interface RouteCardProps {
+  routeData: RouteData | null;
+  interestsLabel: string;
+  onSave: () => void;
+  onReset: () => void;
+}
 
 // Карточка построенного маршрута.
-export default function RouteCard({ routeData, interestsLabel, onSave, onReset }) {
+export default function RouteCard({ routeData, interestsLabel, onSave, onReset }: RouteCardProps) {
   const time = routeData?.time || '—';
   const distance = routeData?.distance || '—';
   const difficulty = routeData?.difficulty || '—';
   const level = routeData?.difficultyLevel || 3;
   const labels = (interestsLabel || '').split(' · ').filter(Boolean);
-  const chipIcon = (i) => [<ITree />, <IVolumeOff />, <ITree />, <IUsers />, <IZap />][i % 5];
+  const chipIcon = (index: number) => [<ITree />, <IVolumeOff />, <ITree />, <IUsers />, <IZap />][index % 5];
 
   return (
     <div className="route-card">
@@ -32,8 +39,8 @@ export default function RouteCard({ routeData, interestsLabel, onSave, onReset }
 
         <div className="section-label">Приоритеты</div>
         <div className="route-chips">
-          {labels.map((label, i) => (
-            <span key={label}>{chipIcon(i)}{label}</span>
+          {labels.map((label, index) => (
+            <span key={label}>{chipIcon(index)}{label}</span>
           ))}
         </div>
 

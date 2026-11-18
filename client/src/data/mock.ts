@@ -1,4 +1,12 @@
-export const INTEREST_CHIPS = [
+import type {
+  Collection,
+  Coords,
+  DiscoverCardData,
+  InterestChip,
+  Place
+} from '../types';
+
+export const INTEREST_CHIPS: InterestChip[] = [
   { id: 'shade', label: 'Ходить по теньку' },
   { id: 'quiet', label: 'Тихое место' },
   { id: 'empty', label: 'Безлюдное' },
@@ -6,7 +14,7 @@ export const INTEREST_CHIPS = [
   { id: 'short', label: 'Самый короткий' }
 ];
 
-export const DISCOVER_CARDS = [
+export const DISCOVER_CARDS: DiscoverCardData[] = [
   {
     id: 1,
     tag: 'Природа',
@@ -33,12 +41,24 @@ export const DISCOVER_CARDS = [
   }
 ];
 
-export const PLACES = [
-  { id: 1, title: 'Центральная набережная', address: 'Красноярск, ул. Дубровинского', cat: 'Достопримечательности', coords: [56.006387, 92.862776] },
-  { id: 2, title: 'Татышев-парк', address: 'Красноярск, о. Татышев', cat: 'Природа', coords: [56.027112, 92.943436] }
+export const PLACES: Place[] = [
+  {
+    id: 1,
+    title: 'Центральная набережная',
+    address: 'Красноярск, ул. Дубровинского',
+    cat: 'Достопримечательности',
+    coords: [56.006387, 92.862776]
+  },
+  {
+    id: 2,
+    title: 'Татышев-парк',
+    address: 'Красноярск, о. Татышев',
+    cat: 'Природа',
+    coords: [56.027112, 92.943436]
+  }
 ];
 
-export const COLLECTIONS = [
+export const COLLECTIONS: Collection[] = [
   {
     id: 1,
     cat: 'Природа',
@@ -73,7 +93,7 @@ export const COLLECTIONS = [
   }
 ];
 
-export const DEMO_LINE = [
+export const DEMO_LINE: Coords[] = [
   [56.0097, 92.8525],
   [56.0145, 92.862],
   [56.019, 92.871],

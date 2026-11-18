@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
-import Logo from './Logo.jsx';
-import { ISearch, IBell, IChevronDown } from './icons.jsx';
+import { useState } from 'react';
+import Logo from './Logo';
+import { ISearch, IBell, IChevronDown } from './icons';
+
+interface TopBarProps {
+  query: string;
+  onQuery: (value: string) => void;
+  onFocusSearch: () => void;
+  onGoProfile: () => void;
+  onNavigate: (path: string) => void;
+  initial?: string;
+  name?: string;
+  onLogout: () => void;
+}
 
 // Верхняя панель docked-приложения: лого, глобальный поиск, уведомления, профиль.
 export default function TopBar({
-  query, onQuery, onFocusSearch, onGoProfile, onNavigate, initial = 'А', name = 'Гость', onLogout
-}) {
+  query, onQuery, onFocusSearch, onGoProfile, onNavigate,
+  initial = 'А', name = 'Гость', onLogout
+}: TopBarProps) {
   const [menu, setMenu] = useState(false);
-  const go = (fn) => () => { setMenu(false); fn(); };
+  const go = (fn: () => void) => () => { setMenu(false); fn(); };
 
   return (
     <div className="app-topbar">

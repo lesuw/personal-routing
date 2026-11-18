@@ -1,8 +1,7 @@
-import React from 'react';
 import { Navigate } from 'react-router-dom';
-import AuthForm from '../auth/AuthForm.jsx';
-import AuthPattern from '../auth/AuthPattern.jsx';
-import { useAuth } from '../auth/AuthContext.jsx';
+import AuthForm from '../auth/AuthForm';
+import AuthPattern from '../auth/AuthPattern';
+import { useAuth } from '../auth/AuthContext';
 
 // Fullscreen: лесной пейзаж на фоне + тёмная карточка формы.
 // Залогиненных сразу отправляем на карту.

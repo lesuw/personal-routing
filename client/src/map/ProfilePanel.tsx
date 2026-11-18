@@ -1,8 +1,16 @@
-import React from 'react';
-import { IBack } from '../components/icons.jsx';
+import { IBack } from '../components/icons';
+import type { ApiUser } from '../types';
+
+interface ProfilePanelProps {
+  user: ApiUser | null;
+  favCount: number;
+  onBack: () => void;
+  onCollections: () => void;
+  onLogout: () => void;
+}
 
 // Вкладка «Профиль»: данные из сессии.
-export default function ProfilePanel({ user, favCount, onBack, onCollections, onLogout }) {
+export default function ProfilePanel({ user, favCount, onBack, onCollections, onLogout }: ProfilePanelProps) {
   const initial = (user?.name || 'Г').trim().charAt(0).toUpperCase();
   return (
     <>

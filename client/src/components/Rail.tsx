@@ -1,7 +1,13 @@
-import React from 'react';
-import { ISearch, IRoute, IBookmark, IUser } from './icons.jsx';
+import type { ReactNode } from 'react';
+import { ISearch, IRoute, IBookmark, IUser } from './icons';
+import type { Tab } from '../types';
 
-const TABS = [
+interface RailProps {
+  tab: Tab;
+  onTab: (tab: Tab) => void;
+}
+
+const TABS: Array<{ id: Tab; label: string; icon: ReactNode }> = [
   { id: 'search', label: 'Поиск', icon: <ISearch /> },
   { id: 'route', label: 'Маршрут', icon: <IRoute /> },
   { id: 'collections', label: 'Подборки', icon: <IBookmark /> },
@@ -9,13 +15,13 @@ const TABS = [
 ];
 
 // Боковой rail: search | route | collections | profile.
-export default function Rail({ tab, onTab }) {
+export default function Rail({ tab, onTab }: RailProps) {
   return (
     <div className="app-rail">
-      {TABS.map((t) => (
-        <button key={t.id} className={tab === t.id ? 'active' : ''} onClick={() => onTab(t.id)}>
-          <span className="i">{t.icon}</span>
-          {t.label}
+      {TABS.map((item) => (
+        <button key={item.id} className={tab === item.id ? 'active' : ''} onClick={() => onTab(item.id)}>
+          <span className="i">{item.icon}</span>
+          {item.label}
         </button>
       ))}
 

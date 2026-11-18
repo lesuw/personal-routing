@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { DISCOVER_CARDS } from '../data/mock.js';
-import Logo from '../components/Logo.jsx';
-import ChipRow from '../components/ChipRow.jsx';
-import DiscoverCard from '../discover/DiscoverCard.jsx';
-import { useAuth } from '../auth/AuthContext.jsx';
-import { IMenu, IBack } from '../components/icons.jsx';
+import { useState } from 'react';
+import { DISCOVER_CARDS } from '../data/mock';
+import Logo from '../components/Logo';
+import ChipRow from '../components/ChipRow';
+import DiscoverCard from '../discover/DiscoverCard';
+import { useAuth } from '../auth/AuthContext';
+import { IMenu, IBack } from '../components/icons';
 
 const CATS = ['Природа', 'Культура', 'Гастрономия', 'Активный отдых'];
 

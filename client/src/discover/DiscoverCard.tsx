@@ -1,8 +1,14 @@
-import React from 'react';
-import { IClock, IPin, IArrow } from '../components/icons.jsx';
+import { IClock, IPin, IArrow } from '../components/icons';
+import type { DiscoverCardData } from '../types';
+
+interface DiscoverCardProps {
+  card: DiscoverCardData;
+  tag: string;
+  onOpen: () => void;
+}
 
 // Карточка подборки маршрута.
-export default function DiscoverCard({ card, tag, onOpen }) {
+export default function DiscoverCard({ card, tag, onOpen }: DiscoverCardProps) {
   return (
     <div className="d-card">
       <img src={card.img} alt={card.title} />

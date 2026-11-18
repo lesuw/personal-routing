@@ -1,16 +1,16 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './auth/AuthContext.jsx';
-import AuthPage from './pages/AuthPage.jsx';
-import MapPage from './pages/MapPage.jsx';
-import DiscoverPage from './pages/DiscoverPage.jsx';
+import { AuthProvider, useAuth } from './auth/AuthContext';
+import AuthPage from './pages/AuthPage';
+import MapPage from './pages/MapPage';
+import DiscoverPage from './pages/DiscoverPage';
 
 // Закрытые экраны: без сессии — назад на вход.
-function RequireAuth({ children }) {
+function RequireAuth({ children }: { children: ReactNode }) {
   const { user, ready } = useAuth();
   if (!ready) return <div className="page"><p className="hint">Загрузка…</p></div>;
   if (!user) return <Navigate to="/" replace />;
-  return children;
+  return <>{children}</>;
 }
 
 export default function App() {
